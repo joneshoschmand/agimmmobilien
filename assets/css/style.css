@@ -142,7 +142,29 @@ p:last-child{margin-bottom:0}
 }
 .site-head.is-stuck .site-head__in{height:clamp(62px,5.6vw,74px)}
 
-.brand{display:flex;align-items:center;flex:none;margin-right:auto}
+/* Beim Scrollen ueber dem Bild-Hero gelten kurzzeitig 'is-stuck' und
+   'is-light' gleichzeitig. Ohne diese Regel legt sich der cremefarbene
+   Balken unter die weisse Schrift und den weissen Burger. */
+.site-head.is-stuck.is-light{
+  background:rgba(18,26,25,.58);
+  border-bottom-color:rgba(255,255,255,.14);
+}
+
+/* Bei offenem Menue liegt die helle Overlay-Flaeche darunter:
+   Balken durchsichtig, Burger und Logo dunkel. */
+body.nav-open .site-head,
+body.nav-open .site-head.is-stuck,
+body.nav-open .site-head.is-stuck.is-light{
+  background:transparent;
+  backdrop-filter:none;-webkit-backdrop-filter:none;
+  border-bottom-color:transparent;
+}
+body.nav-open .site-head .burger span{background:var(--ink)}
+body.nav-open .site-head.is-light .brand img{filter:none}
+
+/* Das geoeffnete Menue liegt bei z-index 1 – Logo und Burger muessen
+   darueber bleiben, sonst verdeckt die Overlay-Flaeche das Schliessen-X. */
+.brand{display:flex;align-items:center;flex:none;margin-right:auto;position:relative;z-index:3}
 .brand img{width:clamp(148px,15vw,204px);transition:width .45s var(--ease)}
 .site-head.is-stuck .brand img{width:clamp(132px,12vw,176px)}
 .site-head.is-light .brand img{filter:brightness(0) invert(1) drop-shadow(0 1px 10px rgba(0,0,0,.35))}
@@ -177,7 +199,7 @@ p:last-child{margin-bottom:0}
 .site-head.is-light .head-cta{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.4);color:#fff}
 .site-head.is-light .head-cta:hover{background:#fff;color:var(--ink);border-color:#fff}
 
-.burger{display:none;background:none;border:0;padding:10px;cursor:pointer;margin-left:auto}
+.burger{display:none;background:none;border:0;padding:10px;cursor:pointer;margin-left:auto;position:relative;z-index:3}
 .burger span{display:block;width:24px;height:1.5px;background:var(--ink);transition:transform .4s var(--ease),opacity .3s}
 .burger span+span{margin-top:6px}
 .site-head.is-light .burger span{background:#fff}
